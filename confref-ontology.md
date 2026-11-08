@@ -29,6 +29,8 @@ the dblp ontology; Wikidata: direct properties `wdt:`; GND: the GND Ontology; Co
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix schema: <http://schema.org/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix obo: <http://purl.obolibrary.org/obo/> .
 @prefix cr: <https://id.confref.org/ontology/> .
 
 <https://id.confref.org/ontology/>
@@ -62,12 +64,25 @@ cr:comment
 ### Series and events
 
 A series is a sequence of recurring events under one name: a conference, workshop or symposium series. An event is
-one meeting: a conference, workshop or symposium, a joint or federated event. Both relations between them are
-many-to-many: a joint event belongs to the series of each partner (`cr:inSeries`), and a workshop is held at its main
-conference (`cr:heldAt`), whose series is not the series of the workshop.
+one meeting: a conference, workshop or symposium, a joint or federated event (confref-data decisions 0013, 0015).
 
-schema.org defines `schema:EventSeries` as a subclass of `schema:Event`. confref keeps the two levels apart, so its
-classes are its own, with schema.org's as superclasses.
+The relations are many-to-many:
+
+- `cr:inSeries`: the series of an event. A joint conference that is branded and run as one event belongs to the
+  series of each partner.
+- `cr:heldAt`: the larger event an event is part of or hosted by: a workshop at its main conference, the partner
+  conferences of a joint conference that presents as a collection, a conference at a federated event. The series of
+  an event is independent of the series of its host.
+- `cr:jointWith`, `cr:colocatedWith`: separate events held together (joint organisation or programme), or at the same
+  place and time with programmes of their own. Both are symmetric.
+
+The sources record joint conferences in each of these ways, and confref keeps the way of the source. The same joint
+conference can appear as one event in two series and as two events joint with each other; the links show how they
+are connected.
+
+schema.org and AEON define a series as a kind of event. confref keeps the two levels apart, so its classes are its
+own, with schema.org's as superclasses. The terms of AEON (the Academic Event Ontology,
+`http://purl.obolibrary.org/obo/AEON_…`, also used by ConfIDent) are recorded as close matches.
 
 #### cr:Series
 ```
@@ -75,7 +90,8 @@ cr:Series
     a owl:Class ;
     rdfs:label "series"@en ;
     rdfs:comment "A sequence of recurring academic events under one name (conference, workshop or symposium series), identified by https://id.confref.org/series/<id>."@en ;
-    rdfs:subClassOf schema:EventSeries .
+    rdfs:subClassOf schema:EventSeries ;
+    skos:closeMatch obo:AEON_0000002 .
 ```
 #### cr:Event
 ```
@@ -84,33 +100,62 @@ cr:Event
     rdfs:label "event"@en ;
     rdfs:comment "One academic meeting (conference, workshop, symposium, joint or federated event) at one time, in one place or online, identified by https://id.confref.org/event/<id>. Not a series, not a proceedings volume."@en ;
     rdfs:subClassOf schema:Event ;
-    owl:disjointWith cr:Series .
+    owl:disjointWith cr:Series ;
+    skos:closeMatch obo:AEON_0000001 .
 ```
 #### cr:inSeries
 ```
 cr:inSeries
     a owl:ObjectProperty ;
     rdfs:label "in series"@en ;
-    rdfs:comment "The series an event belongs to. An event can belong to several series (a joint event of two series)."@en ;
+    rdfs:comment "The series an event belongs to. An event can belong to several series: a joint conference that is branded and run as one event belongs to the series of each partner."@en ;
     rdfs:domain cr:Event ;
     rdfs:range cr:Series ;
-    rdfs:subPropertyOf schema:superEvent .
+    rdfs:subPropertyOf schema:superEvent ;
+    skos:closeMatch obo:AEON_0000084 .
 ```
 #### cr:heldAt
 ```
 cr:heldAt
     a owl:ObjectProperty ;
     rdfs:label "held at"@en ;
-    rdfs:comment "The event that hosts an event: a workshop at its main conference, a conference at a federated event. The series of the hosted event is independent of the series of its host."@en ;
+    rdfs:comment "The larger event an event is part of or hosted by: a workshop at its main conference, a partner conference of a joint conference that presents as a collection of conferences, a conference at a federated event. The series of an event is independent of the series of its host."@en ;
     rdfs:domain cr:Event ;
     rdfs:range cr:Event ;
-    rdfs:subPropertyOf schema:superEvent .
+    rdfs:subPropertyOf schema:superEvent ;
+    skos:closeMatch obo:AEON_0000178 .
+```
+#### cr:jointWith
+```
+cr:jointWith
+    a owl:ObjectProperty, owl:SymmetricProperty ;
+    rdfs:label "joint with"@en ;
+    rdfs:comment "Separate events that are held together, with joint organisation or a joint programme (as a source states it; a joint conference that is one event is one event in several series instead)."@en ;
+    rdfs:domain cr:Event ;
+    rdfs:range cr:Event ;
+    skos:closeMatch obo:AEON_0000083 .
+```
+#### cr:colocatedWith
+```
+cr:colocatedWith
+    a owl:ObjectProperty, owl:SymmetricProperty ;
+    rdfs:label "co-located with"@en ;
+    rdfs:comment "Separate events at the same place and time, each with a programme of its own."@en ;
+    rdfs:domain cr:Event ;
+    rdfs:range cr:Event ;
+    skos:closeMatch obo:AEON_0000082 .
 ```
 #### schema:superEvent
 ```
 schema:superEvent
     cr:label "part of"@en ;
     cr:comment "Not used by confref directly: its subproperties cr:inSeries and cr:heldAt say which relation is meant."@en .
+```
+#### skos:closeMatch
+```
+skos:closeMatch
+    cr:label "close match"@en ;
+    cr:comment "On our own terms: the term of another vocabulary (AEON) that means nearly the same. The terms are not interchangeable in every application."@en .
 ```
 
 ### Identity and history
