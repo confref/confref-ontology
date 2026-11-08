@@ -145,6 +145,87 @@ cr:colocatedWith
     rdfs:range cr:Event ;
     skos:closeMatch obo:AEON_0000082 .
 ```
+### Facts of an event
+
+The edition number, the status, the attendance mode and the type of an event (confref-data decision 0016). The
+edition number is per series: `cr:edition` when the event belongs to one series, otherwise one `cr:Edition` per
+series.
+
+    <https://id.confref.org/event/e10a0bm>
+        cr:inSeries <https://id.confref.org/series/s10000y>, <https://id.confref.org/series/s1000b8> ;
+        cr:hasEdition <https://id.confref.org/event/e10a0bm/edition/s10000y>,
+                      <https://id.confref.org/event/e10a0bm/edition/s1000b8> .
+
+    <https://id.confref.org/event/e10a0bm/edition/s10000y>
+        a cr:Edition ;
+        cr:editionOf <https://id.confref.org/series/s10000y> ;
+        cr:editionNumber 29 .
+
+#### cr:edition
+```
+cr:edition
+    a owl:DatatypeProperty ;
+    rdfs:label "edition"@en ;
+    rdfs:comment "The edition number of an event in its series, when it belongs to one series. An event in several series has a cr:Edition per series instead."@en ;
+    rdfs:domain cr:Event ;
+    rdfs:range xsd:integer ;
+    skos:closeMatch obo:AEON_0000140 .
+```
+#### cr:Edition
+```
+cr:Edition
+    a owl:Class ;
+    rdfs:label "edition"@en ;
+    rdfs:comment "The place of an event in one of its series: the series (cr:editionOf) and the edition number (cr:editionNumber)."@en .
+```
+#### cr:hasEdition
+```
+cr:hasEdition
+    a owl:ObjectProperty ;
+    rdfs:label "has edition"@en ;
+    rdfs:comment "An edition of an event in one of its series."@en ;
+    rdfs:domain cr:Event ;
+    rdfs:range cr:Edition .
+```
+#### cr:editionOf
+```
+cr:editionOf
+    a owl:ObjectProperty ;
+    rdfs:label "edition of"@en ;
+    rdfs:comment "The series of an edition."@en ;
+    rdfs:domain cr:Edition ;
+    rdfs:range cr:Series .
+```
+#### cr:editionNumber
+```
+cr:editionNumber
+    a owl:DatatypeProperty ;
+    rdfs:label "edition number"@en ;
+    rdfs:comment "The number of an edition in its series."@en ;
+    rdfs:domain cr:Edition ;
+    rdfs:range xsd:integer .
+```
+#### cr:eventType
+```
+cr:eventType
+    a owl:ObjectProperty ;
+    rdfs:label "event type"@en ;
+    rdfs:comment "The type of an event, as a class of AEON: academic conference (AEON_0000103), workshop (AEON_0000121), symposium (AEON_0000113), congress (AEON_0000123), colloquium (AEON_0000101), forum (AEON_0000105), seminar (AEON_0000109), tutorial (AEON_0000119), hackathon (AEON_0000107). The types used by ConfIDent and DataCite. A series has no type of its own."@en ;
+    rdfs:domain cr:Event .
+```
+#### schema:eventStatus
+```
+schema:eventStatus
+    cr:label "status"@en ;
+    cr:comment "Whether the event takes or took place as scheduled: schema:EventScheduled, EventPostponed, EventCancelled, EventRescheduled, EventMovedOnline. Cancelled and postponed events keep their identifiers."@en .
+```
+#### schema:eventAttendanceMode
+```
+schema:eventAttendanceMode
+    cr:label "attendance mode"@en ;
+    cr:comment "On site (schema:OfflineEventAttendanceMode), online (OnlineEventAttendanceMode) or hybrid (MixedEventAttendanceMode)."@en .
+```
+
 #### schema:superEvent
 ```
 schema:superEvent
