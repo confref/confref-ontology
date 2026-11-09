@@ -64,7 +64,7 @@ cr:comment
 ### Series and events
 
 A series is a sequence of recurring events under one name: a conference, workshop or symposium series. An event is
-one meeting: a conference, workshop or symposium, a joint or federated event (confref-data decisions 0013, 0015).
+one meeting: a conference, workshop or symposium, a joint or federated event (confref-data decisions 0013, 0017).
 
 The relations are many-to-many:
 
