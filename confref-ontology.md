@@ -3,7 +3,9 @@
 Namespace: `https://id.confref.org/ontology/` (prefix `cr:`). This document is the source; the Turtle file
 [confref-ontology.ttl](confref-ontology.ttl) is generated from its code blocks (`python3 generate.py`).
 
-Status: draft (2026-11-08), not yet published.
+Status: published 2026-11-09 as the dataset `confref-ontology` (one version per change, on archive.confref.org and in
+the SPARQL endpoint of labs.confref.org); terms can still be added and changed. The rendered document is
+[www.confref.org/ontology/](https://www.confref.org/ontology/).
 
 ### What this document describes
 
