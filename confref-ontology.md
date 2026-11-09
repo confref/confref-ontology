@@ -239,6 +239,124 @@ skos:closeMatch
     cr:comment "On our own terms: the term of another vocabulary (AEON) that means nearly the same. The terms are not interchangeable in every application."@en .
 ```
 
+### Places, dates, websites, proceedings
+
+The place, the end date, the website and the proceedings of an event in `ids` (confref-data decisions 0013, 0018).
+
+#### schema:location
+```
+schema:location
+    cr:label "place"@en ;
+    cr:comment "The place of the event: a Wikidata item (a city, else a region, else a country), as linked in the dataset ls-places and described in wikidata-places. Where no item was found, the name of the place as the source gives it."@en .
+```
+#### schema:startDate
+```
+schema:startDate
+    cr:label "start date"@en ;
+    cr:comment "The first day of the event (xsd:date)."@en .
+```
+#### cr:year
+```
+cr:year
+    a owl:DatatypeProperty ;
+    rdfs:label "year"@en ;
+    rdfs:comment "The year of the event (xsd:gYear), also where the sources give no full date."@en ;
+    rdfs:domain cr:Event ;
+    rdfs:range xsd:gYear .
+```
+#### schema:endDate
+```
+schema:endDate
+    cr:label "end date"@en ;
+    cr:comment "The last day of the event (xsd:date)."@en .
+```
+#### schema:url
+```
+schema:url
+    cr:label "website"@en ;
+    cr:comment "The website of the series or event, as ConfIDent or Wikidata give it."@en .
+```
+#### cr:proceedings
+```
+cr:proceedings
+    a owl:ObjectProperty ;
+    rdfs:label "proceedings"@en ;
+    rdfs:comment "A proceedings volume with contributions of the event: a record of a source (a dblp publication, a Springer book, a Wikidata item). An event can have several volumes, and a volume can cover several events."@en ;
+    rdfs:domain cr:Event .
+```
+
+### Academic fields and disciplines
+
+Confref-data decision 0019. The fields are the concepts of the vocabulary `oecd-fos`
+(`https://id.confref.org/data/oecd-fos/<code>`); the disciplines are Wikidata items.
+
+#### cr:field
+```
+cr:field
+    a owl:ObjectProperty ;
+    rdfs:label "academic field"@en ;
+    rdfs:comment "A field of the OECD classification of fields of science and technology (Frascati Manual, revised 2007) that the series, event or discipline belongs to: a concept of the vocabulary oecd-fos."@en .
+```
+#### cr:discipline
+```
+cr:discipline
+    a owl:ObjectProperty ;
+    rdfs:label "discipline"@en ;
+    rdfs:comment "A discipline or research topic of the series or event, finer than its academic field: a Wikidata item."@en .
+```
+
+### Ratings
+
+Confref-data decision 0020. A rating is a statement of a rating system about a series or an event at a time, kept in
+datasets of the kind `rating`, not in `ids`.
+
+    <https://id.confref.org/data/ratings-springer-lod/aaecc/core>
+        a cr:Rating ;
+        cr:ratingOf <http://lod.springer.com/data/confseries/aaecc> ;
+        cr:ratingSystem <https://id.confref.org/data/rating-systems/core> ;
+        cr:ratingValue "B" ;
+        dcterms:date "2017-04-06"^^xsd:date .
+
+#### cr:Rating
+```
+cr:Rating
+    a owl:Class ;
+    rdfs:label "rating"@en ;
+    rdfs:comment "The value a rating system gives to a series or event at a time: a rank (CORE A*), a class (Qualis B1) or an indicator (h5-index)."@en ;
+    rdfs:subClassOf schema:Rating .
+```
+#### cr:ratingOf
+```
+cr:ratingOf
+    a owl:ObjectProperty ;
+    rdfs:label "rating of"@en ;
+    rdfs:comment "The series or event that is rated: a record of a source or a confref identifier."@en ;
+    rdfs:domain cr:Rating .
+```
+#### cr:ratingSystem
+```
+cr:ratingSystem
+    a owl:ObjectProperty ;
+    rdfs:label "rating system"@en ;
+    rdfs:comment "The ranking or indicator the rating belongs to: a concept of the vocabulary rating-systems."@en ;
+    rdfs:domain cr:Rating .
+```
+#### cr:ratingValue
+```
+cr:ratingValue
+    a owl:DatatypeProperty ;
+    rdfs:label "rating value"@en ;
+    rdfs:comment "The value, as the rating system gives it (A*, B1, 12)."@en ;
+    rdfs:domain cr:Rating ;
+    rdfs:subPropertyOf schema:ratingValue .
+```
+#### dcterms:date
+```
+dcterms:date
+    cr:label "date"@en ;
+    cr:comment "On a rating: the date or year the rating refers to, or the date the source took it over."@en .
+```
+
 ### Identity and history
 
 **Identity.** The sources state that their records are the same as others (`owl:sameAs`, identifier properties);
@@ -319,6 +437,5 @@ cr:currentSubjects
 
 ### Open
 
-- The link between proceedings and events (decision 0013: many-to-many), and the class of proceedings.
-- The facts of a series or event on its landing page (names, acronyms, dates, places, organisers) and the reused terms
-  for them.
+- The class of proceedings (the volumes are records of their sources for now).
+- Organisers of series and events.

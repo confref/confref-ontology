@@ -131,6 +131,74 @@ skos:closeMatch
     cr:label "close match"@en ;
     cr:comment "On our own terms: the term of another vocabulary (AEON) that means nearly the same. The terms are not interchangeable in every application."@en .
 
+schema:location
+    cr:label "place"@en ;
+    cr:comment "The place of the event: a Wikidata item (a city, else a region, else a country), as linked in the dataset ls-places and described in wikidata-places. Where no item was found, the name of the place as the source gives it."@en .
+
+schema:startDate
+    cr:label "start date"@en ;
+    cr:comment "The first day of the event (xsd:date)."@en .
+
+cr:year
+    a owl:DatatypeProperty ;
+    rdfs:label "year"@en ;
+    rdfs:comment "The year of the event (xsd:gYear), also where the sources give no full date."@en ;
+    rdfs:domain cr:Event ;
+    rdfs:range xsd:gYear .
+
+schema:endDate
+    cr:label "end date"@en ;
+    cr:comment "The last day of the event (xsd:date)."@en .
+
+schema:url
+    cr:label "website"@en ;
+    cr:comment "The website of the series or event, as ConfIDent or Wikidata give it."@en .
+
+cr:proceedings
+    a owl:ObjectProperty ;
+    rdfs:label "proceedings"@en ;
+    rdfs:comment "A proceedings volume with contributions of the event: a record of a source (a dblp publication, a Springer book, a Wikidata item). An event can have several volumes, and a volume can cover several events."@en ;
+    rdfs:domain cr:Event .
+
+cr:field
+    a owl:ObjectProperty ;
+    rdfs:label "academic field"@en ;
+    rdfs:comment "A field of the OECD classification of fields of science and technology (Frascati Manual, revised 2007) that the series, event or discipline belongs to: a concept of the vocabulary oecd-fos."@en .
+
+cr:discipline
+    a owl:ObjectProperty ;
+    rdfs:label "discipline"@en ;
+    rdfs:comment "A discipline or research topic of the series or event, finer than its academic field: a Wikidata item."@en .
+
+cr:Rating
+    a owl:Class ;
+    rdfs:label "rating"@en ;
+    rdfs:comment "The value a rating system gives to a series or event at a time: a rank (CORE A*), a class (Qualis B1) or an indicator (h5-index)."@en ;
+    rdfs:subClassOf schema:Rating .
+
+cr:ratingOf
+    a owl:ObjectProperty ;
+    rdfs:label "rating of"@en ;
+    rdfs:comment "The series or event that is rated: a record of a source or a confref identifier."@en ;
+    rdfs:domain cr:Rating .
+
+cr:ratingSystem
+    a owl:ObjectProperty ;
+    rdfs:label "rating system"@en ;
+    rdfs:comment "The ranking or indicator the rating belongs to: a concept of the vocabulary rating-systems."@en ;
+    rdfs:domain cr:Rating .
+
+cr:ratingValue
+    a owl:DatatypeProperty ;
+    rdfs:label "rating value"@en ;
+    rdfs:comment "The value, as the rating system gives it (A*, B1, 12)."@en ;
+    rdfs:domain cr:Rating ;
+    rdfs:subPropertyOf schema:ratingValue .
+
+dcterms:date
+    cr:label "date"@en ;
+    cr:comment "On a rating: the date or year the rating refers to, or the date the source took it over."@en .
+
 cr:sameAs
     a owl:ObjectProperty ;
     rdfs:label "same as (confref)"@en ;
